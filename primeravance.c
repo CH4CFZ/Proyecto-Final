@@ -68,10 +68,5 @@ if(tablero[posii][posjj]==1){
         system("clear");
      
     }
-
-    
-
-   
-
     return 0;
 }
