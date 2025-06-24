@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-
+//Hola
 
 //esta parte es para dar la posicion del caballero, si el caballero se encuentra en esa posicion aparece un * en la posicion i,j
 void printCaballero(int posi, int posj) {
