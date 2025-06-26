@@ -78,6 +78,67 @@ void printCaballero(int posi, int posj) {
 
 
 
+void interfaz(){
+
+    int opcion;
+    char nombreJugador[50];
+    int dificultad;
+
+   // printf("%s", portada);
+
+    printf("Presione 1 para continuar");
+
+    scanf("%d", &opcion);
+    if (opcion == 1) {
+	    
+            system("clear");
+            printf("Bienvenido a Monster Quest 98\n\n");
+            printf("1. Comenzar partida\n");
+            printf("2. Salir\n\n");
+            printf("Seleccione una opción: ");
+
+         if (scanf("%d", &opcion) != 1) {
+		 
+                 opcion = 0;
+                 int c;
+                 while ((c = getchar()) != '\n' && c != EOF); // esto es si algun genio se le ocurre no presionar opcion valida
+        }
+
+         switch (opcion) {
+		 
+                 case 1:
+			 
+                         system("clear");
+                         printf("Elija la dificultad de la partida...\n\n");
+                         printf("1. dificil\n");
+                         printf("2. normal\n\n");
+                         printf("3. facil\n");
+
+                 if (scanf("%d", &opcion) != 1) {
+            opcion = 0;
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF); // esto es si algun genio se le ocurre no presionar opcion valida
+        }
+
+                break;
+            case 2:
+                printf("\nhasta luego\n");
+                break;
+            default:
+                printf("\n intente de nuevo.\n");
+                break;
+        }
+
+
+
+
+
+    }
+
+
+}
+
+
 int main() {
     srand(time(NULL)); //esto para que cada vez que se inicie sea aleatoria la semilla
 
