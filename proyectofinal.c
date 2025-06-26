@@ -145,6 +145,8 @@ void interfaz(){
 
 
 int main() {
+
+	/**
     srand(time(NULL)); //esto para que cada vez que se inicie sea aleatoria la semilla
 
     int tablero[5][5]; // probamos con una matriz 5x5 pero el tamanno de la matriz al final debe ser aleatorio
@@ -190,5 +192,8 @@ if(tablero[posii][posjj]==1){
         system("clear");
      
     }
+    */
+     
+    interfaz();
     return 0;
 }
