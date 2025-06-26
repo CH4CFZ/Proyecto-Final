@@ -63,16 +63,19 @@ const char *portada =
 void printCaballero(int posi, int posj) {
     
     for (int i = 0; i < 5; i++) {
-        for (int j = 0; j < 5; j++) {
+	    
+            for (int j = 0; j < 5; j++) {
             
-            if(posi==i && posj==j){
-                printf("[*]");
+                    if(posi==i && posj==j){
+			    
+                            printf("[*]");
+                    }
+                    else{
+			    
+                            printf("[]");
+                    }
             }
-            else{
-            printf("[]");
-            }
-        }
-        printf("\n"); 
+            printf("\n"); 
     }
 }
 
@@ -115,9 +118,11 @@ void interfaz(){
                          printf("3. facil\n");
 
                  if (scanf("%d", &opcion) != 1) {
-            opcion = 0;
-            int c;
-            while ((c = getchar()) != '\n' && c != EOF); // esto es si algun genio se le ocurre no presionar opcion valida
+            
+			 opcion = 0;
+			 int c;
+
+                 	while ((c = getchar()) != '\n' && c != EOF); // esto es si algun genio se le ocurre no presionar opcion valida
         }
 
                 break;
