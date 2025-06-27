@@ -99,16 +99,16 @@ struct Jugador crearJugador(const char *nombre, int vidaActual, int vidaMaxima, 
  *Mediante el struct accede a las caracteristicas para poder imprimirlas
  */
 void imprimirJugador(const struct Jugador *j) {
-    printf("Jugador {\n");
+    printf("**********          DATOS DEL JUGADOR           **********\n");
     printf("  nombre: \"%s\"\n",     j->nombre);
     printf("  vidaActual: %d\n",     j->vidaActual);
     printf("  vidaMaxima: %d\n",     j->vidaMaxima);
     printf("  dinero: %d\n",         j->dinero);
-    printf("  arma: ");
-    imprimirArma(&j->arma);
-    printf("}\n");
+    printf("  ");
+    imprimirArma(&j->arma); 
+    printf("\n**********************************************************\n");
+    
 }
-
 // setters y getters
 
 void setJugadorNombre(struct Jugador *j, const char *nombre) {
