@@ -8,6 +8,46 @@ struct Arma {
 	char nombre[50];
 	int ataque;
 };
+/*Esta funcion usa el struct arma para crear un arma
+ *Se implemento un case, ya que hay varios tipos de armas 
+ *Cada una tiene su respectivo nombre y ataque, por lo que mientras mas potente es mas difcil es de conseguir
+ */
+struct Arma crearArma(int id) {
+	struct Arma a;
+	a.id = id;
+	switch (id) {
+	case 1:
+		strcpy(a.nombre, "palo de madera");
+		a.ataque = 5;
+		break;
+	case 2:
+		strcpy(a.nombre, "cuchillo");
+		a.ataque = 10;
+		break;
+	case 3:
+		strcpy(a.nombre, "mazo");
+		a.ataque = 15;
+		break;
+	case 4:
+		strcpy(a.nombre, "cadenas de fuego");
+		a.ataque = 20;
+		break;
+	case 5:
+		strcpy(a.nombre, "espada de furia");
+		a.ataque = 25;
+		break;
+	case 98:
+		strcpy(a.nombre, "espada celestial");
+		a.ataque = 100;
+		break;
+	default:
+		strcpy(a.nombre, "desconocido");
+		a.ataque = 0;
+		break;
+	}
+	return a;
+}
+
 
 const char *portada =
     "....................................................................................................\n"
