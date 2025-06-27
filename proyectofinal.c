@@ -61,6 +61,44 @@ struct Enemigo crearEnemigo(int id, int dificultad) {
     return e;
 }
 
+//Funcion sencilla como todas las demas de impresion que recorre las caracteristicas del enemigo
+void imprimirEnemigo(const struct Enemigo *e) {
+    printf("enemigo { id: %d, nombre: \"%s\", ataque: %d, vidaActual: %d, vidaMaxima: %d }\n",
+           e->id, e->nombre, e->ataque, e->vidaActual, e->vidaMaxima);
+}
+
+/*Funciones sencillas las cuales tienen como funcion
+ *acceder al obejto que en este caso es el enemigo para 
+ *acceder y modificar lo que estos son mas que todo con el ID
+ *
+ */
+
+int getEnemigoId(const struct Enemigo *e)         {
+       	return e->id; 
+}
+const char* getEnemigoNombre(const struct Enemigo *e) {
+       	return e->nombre; 
+}
+int getEnemigoAtaque(const struct Enemigo *e)     {
+       	return e->ataque; 
+}
+int getEnemigoVidaActual(const struct Enemigo *e){
+       	return e->vidaActual; 
+}
+int getEnemigoVidaMaxima(const struct Enemigo *e){
+       	return e->vidaMaxima; 
+}
+
+void setEnemigoId(struct Enemigo *e, int id) {
+    int dif = 2; // por defecto normal
+    *e = crearEnemigo(id, dif);
+}
+
+void setEnemigoDificultad(struct Enemigo *e, int dificultad) {
+    *e = crearEnemigo(e->id, dificultad);
+}
+
+
 
 
 
