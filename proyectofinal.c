@@ -47,6 +47,28 @@ struct Arma crearArma(int id) {
 	}
 	return a;
 }
+// Algoritmo sencillo para mostrar el arma que se tiene
+void imprimirArma(const struct Arma *a) {
+	printf("Arma { id: %d, nombre: \"%s\", ataque: %d }\n",
+	       a->id, a->nombre, a->ataque);
+}
+//Cambia el arma segun el id de la misma
+void setArmaId(struct Arma *a, int id) {
+	*a = crearArma(id);
+}
+/*Las siguientes funciones returnan las caracteristicas del arma que se tiene*/
+int getArmaId(const struct Arma *a) {
+	return a->id;
+}
+
+const char* getArmaNombre(const struct Arma *a) {
+	return a->nombre;
+}
+
+int getArmaAtaque(const struct Arma *a) {
+	return a->ataque;
+}
+
 
 
 const char *portada =
