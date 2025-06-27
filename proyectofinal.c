@@ -372,7 +372,35 @@ void gameplay(struct Jugador *jugador, int dificultad) {
         }
     }
 
-   
+    int fila = 0, columna = 0, accion;
+    visitado[0][0] = 1;
+
+    int fila = 0, columna = 0, accion;
+    visitado[0][0] = 1;
+
+    while (1) {
+        system("clear");
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                if (i == fila && j == columna)       printf("| (ง •̀_•́)ง ");
+                else if (visitado[i][j])             printf("|     *    ");
+                else                                 printf("|          ");
+            }
+            printf("|\n");
+        }
+
+        char tipo = tablero[fila][columna];
+        if      (tipo == 'c') printf("hay combate\n");
+        else if (tipo == 't') printf("hay tienda\n");
+        else if (tipo == 'j') printf("hay jefe\n");
+
+
+
+
+
+
+
+
 
 
 
