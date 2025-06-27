@@ -68,7 +68,16 @@ const char* getArmaNombre(const struct Arma *a) {
 int getArmaAtaque(const struct Arma *a) {
 	return a->ataque;
 }
-
+/*Aqui se definen las cosas basicas de un jugador
+ *Se usa el struct de arma para que a este se le pueda asignar una en medio del gameplay
+ */
+struct Jugador {
+    char nombre[50];
+    int vidaActual;
+    int vidaMaxima;
+    int dinero;
+    struct Arma arma;
+};
 
 
 const char *portada =
