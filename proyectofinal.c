@@ -387,8 +387,9 @@ void gameplay(struct Jugador *jugador, int dificultad) {
     /*Aqui el juego se empieza a ejecutar hasta que se cumpla alguna condicion que lo haga frenar, como la muerte del personaje
      */
     while (1) {
-        system("clear");
-        for (int i = 0; i < filas; i++) {
+	
+          system("clear");
+          for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
                 if (i == fila && j == columna)       printf("| (ง •̀_•́)ง ");
                 else if (visitado[i][j])             printf("|     *    ");
