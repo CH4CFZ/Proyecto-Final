@@ -87,6 +87,13 @@ void printCaballero(int posi, int posj) {
             printf("\n"); 
     }
 }
+/*Funcion encargada de la interfaz
+ *Pide un 1 para ingresar a la interfaz donde se configuran los ajustes de la partida
+ *Dentro del juego, se pide un 1 para comenzar partida o 2 para salir
+ *Al comenzar se pide la dificultad y el nombre del jugador
+ *Con un case se lleva control de la interfaz
+ *
+ */
 
 void inicio() {
 
@@ -94,13 +101,13 @@ void inicio() {
 	char nombreJugador[50];
 	int dificultad;
 
-	// printf("%s", portada);
+	 printf("%s", portada);
 
 	printf("Presione 1 para continuar");
 
 	scanf("%d", &opcion);
 	if (opcion == 1) {
-		system("clear");
+		system("clear"); //Aqui se limpia la terminal para borrar la portada inpresa y tener la terminal limpia
 		printf("Bienvenido a Monster Quest 98\n\n");
 		printf("1. Comenzar partida\n");
 		printf("2. Salir\n\n");
@@ -109,7 +116,7 @@ void inicio() {
 		if (scanf("%d", &opcion) != 1) {
 			opcion = 0;
 			int c;
-			while ((c = getchar()) != '\n' && c != EOF); // esto es si algun genio se le ocurre no presionar opcion valida
+			while ((c = getchar()) != '\n' && c != EOF); // Linea auxiliar por si se coloca una opccion no valida
 		}
 
 		switch (opcion) {
@@ -123,9 +130,10 @@ void inicio() {
 			if (scanf("%d", &dificultad) != 1) {
 				dificultad = 0;
 				int c;
-				while ((c = getchar()) != '\n' && c != EOF); // esto es si algun genio se le ocurre no presionar opcion valida
+				while ((c = getchar()) != '\n' && c != EOF); // Otra linea auxiliar
 			}
-
+                        /*Si la dificultad ingresada esta fuera del rango de opciones
+			 * se entra en un while hasta que se ingrese una valida*/
 			while (dificultad < 1 || dificultad > 3) {
 				
 			        system("clear");
@@ -138,12 +146,12 @@ void inicio() {
 				if (scanf("%d", &dificultad) != 1) {
 					dificultad = 0;
 					int c;
-					while ((c = getchar()) != '\n' && c != EOF); // esto es si algun genio se le ocurre no presionar opcion valida
+					while ((c = getchar()) != '\n' && c != EOF); // Otra linea auxiliar
 				}
 			}
 			
 			system("clear");
-			
+			//despues de escoger la dificultad se pide el nombre del jugador
 			printf("******      Escriba el nombre de su personaje       ****** \n\n");
 			scanf("%49s", nombreJugador);
 			
@@ -154,6 +162,7 @@ void inicio() {
 
 
 			break;
+		//Si la opcion es 2 simplemente se termina la ejecucion, o sea se sale del juego
 		case 2:
 			printf("\nhasta luego\n");
 			break;
