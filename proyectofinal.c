@@ -107,6 +107,45 @@ void imprimirJugador(const struct Jugador *j) {
     printf("}\n");
 }
 
+// setters y getters
+
+void setJugadorNombre(struct Jugador *j, const char *nombre) {
+    strncpy(j->nombre, nombre, sizeof(j->nombre) - 1);
+    j->nombre[sizeof(j->nombre) - 1] = '\0';
+}
+const char* getJugadorNombre(const struct Jugador *j) {
+    return j->nombre;
+}
+
+void setVidaActual(struct Jugador *j, int v) {
+    j->vidaActual = v;
+}
+int getVidaActual(const struct Jugador *j) {
+    return j->vidaActual;
+}
+
+void setVidaMaxima(struct Jugador *j, int v) {
+    j->vidaMaxima = v;
+}
+int getVidaMaxima(const struct Jugador *j) {
+    return j->vidaMaxima;
+}
+
+void setDinero(struct Jugador *j, int d) {
+    j->dinero = d;
+}
+int getDinero(const struct Jugador *j) {
+    return j->dinero;
+}
+
+void setArmaJugador(struct Jugador *j, struct Arma arma) {
+    j->arma = arma;
+}
+struct Arma getArmaJugador(const struct Jugador *j) {
+    return j->arma;
+}
+
+
 
 
 const char *portada =
