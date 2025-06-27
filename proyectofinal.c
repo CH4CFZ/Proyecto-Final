@@ -4,6 +4,24 @@
 #include <stdio.h>
 #include <string.h>
 
+struct Enemigo{
+    int id;
+    char nombre[50];
+    int ataque;
+    int vidaActual;
+    int vidaMaxima;
+   
+};
+
+
+
+
+
+
+
+
+
+
 struct Arma {
 	int id;
 	char nombre[50];
