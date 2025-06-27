@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
+#include <stdio.h>
+#include <string.h>
 
 struct Arma {
 	int id;
@@ -49,9 +50,10 @@ struct Arma crearArma(int id) {
 }
 // Algoritmo sencillo para mostrar el arma que se tiene
 void imprimirArma(const struct Arma *a) {
-	printf("Arma { id: %d, nombre: \"%s\", ataque: %d }\n",
-	       a->id, a->nombre, a->ataque);
+	printf("Arma {\"%s\", ataque: %d }\n",
+	       a->nombre, a->ataque);
 }
+
 //Cambia el arma segun el id de la misma
 void setArmaId(struct Arma *a, int id) {
 	*a = crearArma(id);
