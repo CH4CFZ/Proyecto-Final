@@ -92,6 +92,21 @@ struct Jugador crearJugador(const char *nombre, int vidaActual, int vidaMaxima, 
     j.arma       = arma;
     return j;
 }
+/*Funcion sencilla para imprimir
+ *Recibe como parametro el struct del jugador
+ *Mediante el struct accede a las caracteristicas para poder imprimirlas
+ */
+void imprimirJugador(const struct Jugador *j) {
+    printf("Jugador {\n");
+    printf("  nombre: \"%s\"\n",     j->nombre);
+    printf("  vidaActual: %d\n",     j->vidaActual);
+    printf("  vidaMaxima: %d\n",     j->vidaMaxima);
+    printf("  dinero: %d\n",         j->dinero);
+    printf("  arma: ");
+    imprimirArma(&j->arma);
+    printf("}\n");
+}
+
 
 
 const char *portada =
