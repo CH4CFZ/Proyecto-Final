@@ -4,6 +4,10 @@
 #include <stdio.h>
 #include <string.h>
 
+/*EStructurar de enemigo
+ *Guarda las caracteristicas basicas que necesita el mismo
+ */
+
 struct Enemigo{
     int id;
     char nombre[50];
@@ -12,6 +16,50 @@ struct Enemigo{
     int vidaMaxima;
    
 };
+/*Funcion para crear enemigo
+ *segun el id asigna el tipo de enemigo que es
+ *segun el id asigna las caracteristicas de combate
+ *
+ */
+struct Enemigo crearEnemigo(int id, int dificultad) {
+    struct Enemigo e;
+    e.id = id;
+    switch (id) {
+        case 1: strcpy(e.nombre, "zombie");   break;
+        case 2: strcpy(e.nombre, "bruja");    break;
+        case 3: strcpy(e.nombre, "diablo");   break;
+        case 4: strcpy(e.nombre, "fantasma"); break;
+        case 5: strcpy(e.nombre, "vampiro");  break;
+        case 6: strcpy(e.nombre, "jefe");     break;
+        default: strcpy(e.nombre, "desconocido"); break;
+    }
+
+    int vidaBase, ataqueBase;
+    switch (id) {
+        case 1: vidaBase = 50;  ataqueBase =  5;  break;
+        case 2: vidaBase = 40;  ataqueBase =  8;  break;
+        case 3: vidaBase =100;  ataqueBase = 15;  break;
+        case 4: vidaBase = 30;  ataqueBase = 10;  break;
+        case 5: vidaBase = 80;  ataqueBase = 12;  break;
+        case 6: vidaBase =200;  ataqueBase = 25;  break;
+        default: vidaBase = 10; ataqueBase =  1;  break;
+    }
+    /*Aqui segun las dificultades de la partida se le hace un buff 
+     * a los enemigos
+     */
+    if (dificultad == 1) {         // difícil
+        e.vidaMaxima = vidaBase * 2;
+        e.ataque     = ataqueBase * 2;
+    } else if (dificultad == 2) {  // normal
+        e.vidaMaxima = vidaBase;
+        e.ataque     = ataqueBase;
+    } else {                       // bts
+        e.vidaMaxima = vidaBase / 2;
+        e.ataque     = ataqueBase / 2;
+    }
+    e.vidaActual = e.vidaMaxima;
+    return e;
+}
 
 
 
