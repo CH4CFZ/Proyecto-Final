@@ -319,10 +319,23 @@ void inicio() {
 		}
 
 
-
-
-
 	}
+}
+
+/*Definicion de la funcion que llevara a cabo el gameplay
+ *Recibe como parametetros la dificultad y el jugador para operar con estas caracteristicas
+ *
+ *
+ *
+ */
+void gameplay(struct Jugador *jugador, int dificultad) {
+
+
+    system("clear");
+    printf ("Esto es el gameplay");
+
+
+}
 
 
 }
