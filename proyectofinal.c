@@ -78,6 +78,20 @@ struct Jugador {
     int dinero;
     struct Arma arma;
 };
+/*Funcion para crear jugador, recibe como parametos todas las caracteristicas que este debe tener
+ *Define al jugador con el struct de antes
+ *Toma los parametros y los pasa al struct que se definio
+ */
+struct Jugador crearJugador(const char *nombre, int vidaActual, int vidaMaxima, int dinero, struct Arma arma) {
+    struct Jugador j;
+    strncpy(j.nombre, nombre, sizeof(j.nombre) - 1);
+    j.nombre[sizeof(j.nombre) - 1] = '\0';
+    j.vidaActual = vidaActual;
+    j.vidaMaxima = vidaMaxima;
+    j.dinero     = dinero;
+    j.arma       = arma;
+    return j;
+}
 
 
 const char *portada =
