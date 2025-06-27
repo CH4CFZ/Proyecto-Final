@@ -333,6 +333,27 @@ void gameplay(struct Jugador *jugador, int dificultad) {
 
     system("clear");
     printf ("Esto es el gameplay");
+    /*Segun la dificultad seleccionada se condiciona el juego a que se complique por obviedad*/
+    int filas, columnas, valor_maximo, max_libre;
+    switch (dificultad) {
+        case 1:
+            filas = columnas = 8;
+            valor_maximo = 25;
+            max_libre    = 5;
+            break;
+        case 2:
+            filas = columnas = 6;
+            valor_maximo = 20;
+            max_libre    = 4;
+            break;
+        case 3:
+            filas = columnas = 4;
+            valor_maximo = 10;
+            max_libre    = 2;
+            break;
+        default:
+            return;
+    }
 
 
 }
