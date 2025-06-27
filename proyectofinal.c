@@ -355,14 +355,24 @@ void gameplay(struct Jugador *jugador, int dificultad) {
             return;
     }
 
+    /*Aqui se hace el llenado del tablero definifendo el tablero con un char para guardar 
+     * lo que hay en cada casilla recorrida y un int visitado para ir verificando su ya una posicion del tablero se recorrio
+     *
+     */
+
     srand(time(NULL));
     char tablero[filas][columnas];
     int visitado[filas][columnas];
 
     for (int i = 0; i < filas; i++) {
-        int pos_tienda = rand() % (columnas - 1);
+        int pos_tienda = rand() % (columnas - 1); /*Se puede generar una tienda aleatoria en cualquier casilla menos la ultima*/
         for (int j = 0; j < columnas; j++) {
             visitado[i][j] = 0;
+	    /**
+	     *Aqui se definen los distintos eventos que pueden ocurrir en una casilla, la utltima esta reservada para
+	     *una lucha con el jefe final, por lo que se le asiga la letra clave J, si hay tienda una T y las demas son espacios l
+	     *libres en el tablero
+	     */
             if (j == columnas - 1)       tablero[i][j] = 'j';
             else if (j == pos_tienda)    tablero[i][j] = 't';
             else {
@@ -374,10 +384,8 @@ void gameplay(struct Jugador *jugador, int dificultad) {
 
     int fila = 0, columna = 0, accion;
     visitado[0][0] = 1;
-
-    int fila = 0, columna = 0, accion;
-    visitado[0][0] = 1;
-
+    /*Aqui el juego se empieza a ejecutar hasta que se cumpla alguna condicion que lo haga frenar, como la muerte del personaje
+     */
     while (1) {
         system("clear");
         for (int i = 0; i < filas; i++) {
@@ -389,6 +397,7 @@ void gameplay(struct Jugador *jugador, int dificultad) {
             printf("|\n");
         }
 
+        /**A segun que se genero en la respectiva casilla se imprime un mensaje avisando esto*/
         char tipo = tablero[fila][columna];
         if      (tipo == 'c') printf("hay combate\n");
         else if (tipo == 't') printf("hay tienda\n");
