@@ -355,6 +355,26 @@ void gameplay(struct Jugador *jugador, int dificultad) {
             return;
     }
 
+    srand(time(NULL));
+    char tablero[filas][columnas];
+    int visitado[filas][columnas];
+
+    for (int i = 0; i < filas; i++) {
+        int pos_tienda = rand() % (columnas - 1);
+        for (int j = 0; j < columnas; j++) {
+            visitado[i][j] = 0;
+            if (j == columnas - 1)       tablero[i][j] = 'j';
+            else if (j == pos_tienda)    tablero[i][j] = 't';
+            else {
+                int v = rand() % valor_maximo + 1;
+                tablero[i][j] = (v <= max_libre) ? 'l' : 'c';
+            }
+        }
+    }
+
+   
+
+
 
 }
 
