@@ -403,20 +403,26 @@ void gameplay(struct Jugador *jugador, int dificultad) {
         else if (tipo == 't') printf("hay tienda\n");
         else if (tipo == 'j') printf("hay jefe\n");
 
-
-
-
-
-
-
-
-
-
-
+   
+        printf("avanzar? ");
+        scanf("%d", &accion);
+        /*Esta es la forma en la que el jugador avanza hasta llegar al final*/
+        if (accion == 1) {
+            columna++;
+            if (columna == columnas) {
+                columna = 0;
+                fila++;
+                if (fila == filas) {
+                    printf("fin del juego\n");
+                    break;
+                }
+            }
+            visitado[fila][columna] = 1;
+        }
+    }
 }
+        
 
-
-}
 
 int main() {
 
