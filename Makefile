@@ -6,3 +6,10 @@ CFLAGS = -Wall -Wextra -Iinclude
 SRCS = main.c src/proyectofinal.c 
 INCLUDES = include/proyectofinal.h
 OBJS = $(SRCS:.c=.o)
+
+TARGET = main
+all: $(TARGET)
+#Regla para crear el archivo ejecutable main dandole el nombre del target     	
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) $^ -o $@ 
+
