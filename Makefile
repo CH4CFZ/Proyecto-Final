@@ -22,3 +22,7 @@ main.o: main.c
 src/proyectofinal.o: proyectofinal.c $(INCLUDES)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+#Regla para eliminar los archivos objeto que se puedan llegar a generar
+
+clean:
+	rm -f $(TARGET) $(OBJS)
