@@ -9,7 +9,16 @@ OBJS = $(SRCS:.c=.o)
 
 TARGET = main
 all: $(TARGET)
+
 #Regla para crear el archivo ejecutable main dandole el nombre del target     	
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $^ -o $@ 
+
+#Reglas para generar los archivos objeto necesarios para tener el ejectubale final
+
+main.o: main.c
+	$(CC) $(CFLAGS) -c main.c -o main.o
+
+src/proyectofinal.o: proyectofinal.c $(INCLUDES)
+	$(CC) $(CFLAGS) -c $< -o $@
 
