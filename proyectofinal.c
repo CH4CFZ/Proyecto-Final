@@ -104,20 +104,7 @@ const char *zombie =
     "...ASCII ART...\n";
 
 // funcion combate
-void combate(struct Jugador *jugador, int dificultad, char enemigo){
-    int p;
-    scanf("%d",&p);
-
-
-
-
-
-
-struct Arma {
-	int id;
-	char nombre[50];
-	int ataque;
-};
+;
 /*Esta funcion usa el struct arma para crear un arma
  *Se implemento un case, ya que hay varios tipos de armas 
  *Cada una tiene su respectivo nombre y ataque, por lo que mientras mas potente es mas difcil es de conseguir
@@ -541,6 +528,89 @@ void gameplay(struct Jugador *jugador, int dificultad) {
 }
         
 
+
+
+
+const char *avisoComabte =
+" _ _ _   _____       _                       _                    \n"
+"(_|_|_) | ____|_ __ | |_ _ __ __ _ _ __   __| | ___     ___ _ __  \n"
+"| | | | |  _| | '_ \\| __| '__/ _` | '_ \\ / _` |/ _ \\   / _ \\ '_ \\ \n"
+"| | | | | |___| | | | |_| | | (_| | | | | (_| | (_) | |  __/ | | |\n"
+"|_|_|_| |_____|_| |_|\\__|_|  \\__,_|_| |_|\\__,_|\\___/   \\___|_| |_|\n"
+"  ___ ___  _ __ ___ | |__   __ _| |_ ___  | | | |                 \n"
+" / __/ _ \\| '_ ` _ \\| '_ \\ / _` | __/ _ \\ | | | |                 \n"
+"| (_| (_) | | | | | | |_) | (_| | ||  __/ |_|_|_|                 \n"
+" \\___\\___/|_| |_| |_|_.__/ \\__,_|\\__\\___| (_|_|_)                 \n";
+
+
+
+void combate(struct Jugador *jugador, int dificultad, char enemigo) {
+    
+    
+    int idEnemigo = 1;
+    idEnemigo = rand() % 5 + 1; 
+   
+    struct Enemigo e = crearEnemigo(idEnemigo, dificultad);
+
+   
+    int probJugador, probEnemigo;
+    switch (dificultad) {
+        case 1: probJugador = 50;  probEnemigo = 33;  break;
+        case 2: probJugador = 75;  probEnemigo = 25;  break;
+        case 3: probJugador = 90;  probEnemigo = 10;  break;
+        default: probJugador = 50; probEnemigo = 33;  break;
+    }
+
+    printf("Comienza el combate contra %s!\n", getEnemigoNombre(&e));
+    printf("%s: %d/%d  VS  %s: %d/%d\n\n",
+           getJugadorNombre(jugador), getVidaActual(jugador), getVidaMaxima(jugador),
+           getEnemigoNombre(&e), getEnemigoVidaActual(&e), getEnemigoVidaMaxima(&e));
+
+    while (jugador->vidaActual > 0 && e.vidaActual > 0) {
+        
+      //  printf("%s\n", zombie);
+        printf("1. Pelear ");
+        int opc;
+        if (scanf("%d", &opc) != 1 || opc != 1) {
+            printf("Fin de combate prematuro.\n");
+            break;
+        }
+
+        // el jugador
+        if (rand() % 100 < probJugador) {
+            e.vidaActual -= jugador->arma.ataque;
+            printf("%s golpea y causa %d de daño. Vida %s: %d/%d\n",
+                   jugador->nombre, jugador->arma.ataque,
+                   e.nombre, e.vidaActual < 0 ? 0 : e.vidaActual, e.vidaMaxima);
+        } else {
+            printf("%s falla el ataque.\n", jugador->nombre);
+        }
+        if (e.vidaActual <= 0) break;
+
+        // el enemigo 
+        if (rand() % 100 < probEnemigo) {
+            jugador->vidaActual -= e.ataque;
+            printf("%s ataca y causa %d de daño. Vida %s: %d/%d\n",
+                   e.nombre, e.ataque,
+                   jugador->nombre, jugador->vidaActual < 0 ? 0 : jugador->vidaActual, jugador->vidaMaxima);
+        } else {
+            printf("%s falla el ataque.\n", e.nombre);
+        }
+        
+        sleep(2);
+        system("clear");
+        printf("%s\n", zombie);
+        printf("%s: %d/%d  VS  %s: %d/%d\n\n",
+               jugador->nombre, jugador->vidaActual, jugador->vidaMaxima,
+               e.nombre,           e.vidaActual,   e.vidaMaxima);
+    }
+
+    
+    if (jugador->vidaActual > 0)
+        printf("Chaito papi %s!\n", e.nombre);
+    else
+        printf("Fin del jogo %s...\n", e.nombre);
+}
 
 int main() {
 
