@@ -3,6 +3,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h> 
 
 /*EStructurar de enemigo
  *Guarda las caracteristicas basicas que necesita el mismo
@@ -97,11 +98,15 @@ void setEnemigoId(struct Enemigo *e, int id) {
 void setEnemigoDificultad(struct Enemigo *e, int dificultad) {
     *e = crearEnemigo(e->id, dificultad);
 }
+//representacion visual del zombie
+const char *zombie =
+    ".......ZOMBIE.......\n"
+    "...ASCII ART...\n";
 
-
-
-
-
+// funcion combate
+void combate(struct Jugador *jugador, int dificultad, char enemigo){
+    int p;
+    scanf("%d",&p);
 
 
 
@@ -405,7 +410,7 @@ void inicio() {
 			//despues de escoger la dificultad se pide el nombre del jugador
 			printf("******      Escriba el nombre de su personaje       ****** \n\n");
 			scanf("%49s", nombreJugador);
-			
+			struct Jugador jugador = crearJugador(nombreJugador, 100, 100, 10, crearArma(1));
 			printf("Tu nombre es: %s\n", nombreJugador);
 
 			
@@ -507,6 +512,14 @@ void gameplay(struct Jugador *jugador, int dificultad) {
         if      (tipo == 'c') printf("hay combate\n");
         else if (tipo == 't') printf("hay tienda\n");
         else if (tipo == 'j') printf("hay jefe\n");
+	
+	//
+	if(tipo == 'c'){
+   		printf("hay combate\n");
+    		sleep(1);
+    		printf("Entrando\n");
+    		combate(jugador, dificultad, 'c');
+}
 
    
         printf("avanzar? ");
