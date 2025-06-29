@@ -104,7 +104,21 @@ const char *zombie =
     "...ASCII ART...\n";
 
 // funcion combate
-;
+void combateJefe(struct Jugador *jugador, int dificultad);
+void combate(struct Jugador *jugador, int dificultad, char enemigo){
+    int p;
+    scanf("%d",&p);
+
+
+
+
+
+
+struct Arma {
+	int id;
+	char nombre[50];
+	int ataque;
+};
 /*Esta funcion usa el struct arma para crear un arma
  *Se implemento un case, ya que hay varios tipos de armas 
  *Cada una tiene su respectivo nombre y ataque, por lo que mientras mas potente es mas difcil es de conseguir
@@ -531,22 +545,12 @@ void gameplay(struct Jugador *jugador, int dificultad) {
 
 
 
-const char *avisoComabte =
-" _ _ _   _____       _                       _                    \n"
-"(_|_|_) | ____|_ __ | |_ _ __ __ _ _ __   __| | ___     ___ _ __  \n"
-"| | | | |  _| | '_ \\| __| '__/ _` | '_ \\ / _` |/ _ \\   / _ \\ '_ \\ \n"
-"| | | | | |___| | | | |_| | | (_| | | | | (_| | (_) | |  __/ | | |\n"
-"|_|_|_| |_____|_| |_|\\__|_|  \\__,_|_| |_|\\__,_|\\___/   \\___|_| |_|\n"
-"  ___ ___  _ __ ___ | |__   __ _| |_ ___  | | | |                 \n"
-" / __/ _ \\| '_ ` _ \\| '_ \\ / _` | __/ _ \\ | | | |                 \n"
-"| (_| (_) | | | | | | |_) | (_| | ||  __/ |_|_|_|                 \n"
-" \\___\\___/|_| |_| |_|_.__/ \\__,_|\\__\\___| (_|_|_)                 \n";
-
+void combateJefe(struct Jugador *jugador, int dificultad);
 
 
 void combate(struct Jugador *jugador, int dificultad, char enemigo) {
     
-    
+    system("clear");
     int idEnemigo = 1;
     idEnemigo = rand() % 5 + 1; 
    
@@ -569,13 +573,8 @@ void combate(struct Jugador *jugador, int dificultad, char enemigo) {
     while (jugador->vidaActual > 0 && e.vidaActual > 0) {
         
       //  printf("%s\n", zombie);
-        printf("1. Pelear ");
-        int opc;
-        if (scanf("%d", &opc) != 1 || opc != 1) {
-            printf("Fin de combate prematuro.\n");
-            break;
-        }
-
+       
+    
         // el jugador
         if (rand() % 100 < probJugador) {
             e.vidaActual -= jugador->arma.ataque;
