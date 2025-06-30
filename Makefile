@@ -1,10 +1,10 @@
 #Variables basicas de compilacion
 CC = gcc 
-CFLAGS = -Wall -Wextra -Iinclude 
+CFLAGS = -Wall -Wextra -Iincludes 
 
 #Archivos necesarios para la construccion de reglas
 SRCS = main.c src/proyectofinal.c 
-INCLUDES = include/proyectofinal.h
+INCLUDES = includes/proyectofinal.h
 OBJS = $(SRCS:.c=.o)
 
 TARGET = main
