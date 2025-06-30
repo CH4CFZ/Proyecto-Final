@@ -379,7 +379,7 @@ void combateJefe(struct Jugador *jugador, int dificultad);
 void apareceTienda(struct Jugador *jugador);
 
 // funcion combate
-void combate(struct Jugador *jugador, int dificultad, char enemigo) {
+void combate(struct Jugador *jugador, int dificultad) {
     
     system("clear");
     int idEnemigo = 1;
@@ -471,16 +471,17 @@ void combate(struct Jugador *jugador, int dificultad, char enemigo) {
 
 void apareceTienda(struct Jugador *jugador) {
     system("clear");
-    printf("1) dormir  2) salir\n");
+    printf("Bienvenido a la tienda\n");
+    printf("1) Dormir  2) Salir\n");
     int opc;
     scanf("%d",&opc);
     if(opc==1){
-        printf("durmiendo\n");
+        printf("Durmiendo...\n");
         sleep(3);
         setVidaActual(jugador,getVidaMaxima(jugador));
-        printf("te has curado completamente\n");
+        printf("Felicidades, te has curado completamente\n");
     } else if(opc==2){
-        printf("saliendo\n");
+        printf("Volviendo a la aventura...\n");
     }
 }
 
@@ -592,7 +593,7 @@ void inicio() {
             do {
                 system("clear");
                 printf("****** Elija la dificultad ******\n");
-                printf("1. dificil\n2. normal\n3. facil\n");
+                printf("1. Dificil\n2. Normal\n3. Facil\n");
                 printf("Opcion: ");
                 if (scanf("%d", &dificultad) != 1) {
         int c;
@@ -623,7 +624,7 @@ void inicio() {
             break;
 
         case 2:
-            printf("\nhasta luego\n");
+            printf("\nHasta luego\n");
             break;
 
         default:
@@ -696,23 +697,23 @@ void gameplay(struct Jugador *jugador, int dificultad) {
         if(tipo == 'c'){
             
             
-            printf("hay combate\n");
+            printf("Tendras un combate\n");
             sleep(1);
             system("clear");
             printf("%s", avisoComabte);
             sleep(3);
             printf("Entrando\n");
-            combate(jugador, dificultad, 'c');
+            combate(jugador, dificultad);
         } 
         else if (tipo == 't'){ 
-            printf("hay tienda\n");
+            printf("Has encontrado una tienda en el camino\n");
             sleep(1);
             system("clear");
             apareceTienda(jugador);
             
         }
         else if (tipo == 'j'){ 
-            printf("aparece un jefe");
+            printf("Ha aparecido un jefe, derrotalo para continuar.");
             sleep(1);
             system("clear");
             printf("%s", avisoComabte);
@@ -725,7 +726,7 @@ void gameplay(struct Jugador *jugador, int dificultad) {
 // esto es el menu de opciones
 
         do {
-            printf("1. avanzar? ");
+            printf("1. Presione 1 para avanzar ");
         if (scanf("%d", &accion) != 1) {
         int c;
         while ((c = getchar()) != '\n' && c != EOF);
@@ -740,7 +741,7 @@ void gameplay(struct Jugador *jugador, int dificultad) {
                 columna = 0;
                 fila++;
                 if (fila == filas) {
-                    printf("fin del juego\n");
+                    printf("Fin del juego\n");
                     break;
                 }
             }

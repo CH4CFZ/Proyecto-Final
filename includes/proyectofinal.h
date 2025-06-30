@@ -98,7 +98,7 @@ extern const char *portada;
 
 
 void printCaballero(int, int);
-void combate(struct Jugador*, int, char);
+void combate(struct Jugador*, int);
 void combateJefe(struct Jugador*, int);
 void apareceTienda(struct Jugador*);
 void gameplay(struct Jugador*, int);
