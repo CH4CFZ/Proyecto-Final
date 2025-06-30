@@ -126,8 +126,6 @@ const char *angel =
 */
 
 
-
-
 const char *portada =
     "....................................................................................................\n"
     "....................................................................................................\n"
@@ -149,4 +147,215 @@ const char *portada =
     ".........................=*%=.......................................................................\n"
     ".:::.................:..............................................................................\n"
     "..:-----::.............::::.......:-.................................................................\n";
+
+/*Funcion para crear el enemigo 
+ *Recibe como parametro el id para selecionar cual es segun este con el case
+ *Y la dificultada, para mejorarlos segun ella
+ */
+struct Enemigo crearEnemigo(int id, int dificultad) {
+	
+        struct Enemigo e;
+        e.id = id;
+        switch (id) {
+		
+                case 1: strcpy(e.nombre, "zombie");   break;
+                case 2: strcpy(e.nombre, "bruja");    break;
+                case 3: strcpy(e.nombre, "diablo");   break;
+                case 4: strcpy(e.nombre, "fantasma"); break;
+                case 5: strcpy(e.nombre, "vampiro");  break;
+                case 6: strcpy(e.nombre, "jefe");     break;
+                default: strcpy(e.nombre, "desconocido"); break;
+        }
+
+        int vidaBase, ataqueBase;
+        switch (id) {
+		
+                case 1: vidaBase = 50;  ataqueBase =  5;  break;
+        	case 2: vidaBase = 40;  ataqueBase =  8;  break;
+        	case 3: vidaBase =100;  ataqueBase = 15;  break;
+        	case 4: vidaBase = 30;  ataqueBase = 10;  break;
+        	case 5: vidaBase = 80;  ataqueBase = 12;  break;
+        	case 6: vidaBase =200;  ataqueBase = 25;  break;
+        	default: vidaBase = 10; ataqueBase =  1;  break;
+   	}
+
+        if (dificultad == 1) {
+        	e.vidaMaxima = vidaBase * 2;
+        	e.ataque     = ataqueBase * 2;
+        } else if (dificultad == 2) {
+        	e.vidaMaxima = vidaBase;
+        	e.ataque     = ataqueBase;
+        } else {
+        	e.vidaMaxima = vidaBase / 2;
+        	e.ataque     = ataqueBase / 2;
+        }
+        e.vidaActual = e.vidaMaxima;
+        return e;
+}
+
+void imprimirEnemigo(const struct Enemigo *e) {
+	
+    	printf("enemigo { id: %d, nombre: \"%s\", ataque: %d, vidaActual: %d, vidaMaxima: %d }\n",
+           	e->id, e->nombre, e->ataque, e->vidaActual, e->vidaMaxima);
+}
+/*Funciones get y set: Encargadas de acceder a los miembros de los structs, al ser mmuchas esta es la unica que va a ser comentada
+ *ya que seu logica es general.
+ *EStas reciben como la direccion del struct al que desean accerder, para crear o modificar lo que sea necesario
+ *Por esto es que toman un puntero, sin embargo depende de la misma, ya que pueden o no recibir mas parametros segun la estructura
+ *y lo que se quiera hacer.
+ */
+int getEnemigoId(const struct Enemigo *e)         { return e->id; }
+const char* getEnemigoNombre(const struct Enemigo *e) { return e->nombre; }
+int getEnemigoAtaque(const struct Enemigo *e)     { return e->ataque; }
+int getEnemigoVidaActual(const struct Enemigo *e){ return e->vidaActual; }
+int getEnemigoVidaMaxima(const struct Enemigo *e){ return e->vidaMaxima; }
+
+void setEnemigoId(struct Enemigo *e, int id) {
+    	*e = crearEnemigo(id, 2);
+}
+
+void setEnemigoDificultad(struct Enemigo *e, int dificultad) {
+    	*e = crearEnemigo(e->id, dificultad);
+}
+
+
+
+struct Arma crearArma(int id) {
+    	struct Arma a;
+    	a.id = id;
+    	switch (id) {
+
+    		case 1:
+        		strcpy(a.nombre, "palo de madera");
+        		a.ataque = 5;
+        		break;
+    		case 2:
+        		strcpy(a.nombre, "cuchillo");
+        		a.ataque = 10;
+        		break;
+    		case 3:
+        		strcpy(a.nombre, "mazo");
+        		a.ataque = 15;
+        		break;
+    		case 4:
+        		strcpy(a.nombre, "cadenas de fuego");
+        		a.ataque = 20;
+       			break;
+    		case 5:
+        		strcpy(a.nombre, "espada de furia");
+        		a.ataque = 25;
+        		break;
+    		case 98:
+        		strcpy(a.nombre, "espada celestial");
+        		a.ataque = 100;
+        		break;
+   		 default:
+        		strcpy(a.nombre, "desconocido");
+        		a.ataque = 0;
+        		break;
+        }
+        return a;
+}
+
+// Algoritmo sencillo para mostrar el arma que se tiene
+void imprimirArma(const struct Arma *a) {
+    printf("Arma {\"%s\", ataque: %d }\n",
+           a->nombre, a->ataque);
+}
+
+//Cambia el arma segun el id de la misma
+void setArmaId(struct Arma *a, int id) {
+    	*a = crearArma(id);
+}
+
+/*Las siguientes funciones returnan las caracteristicas del arma que se tiene*/
+int getArmaId(const struct Arma *a) {
+    	return a->id;
+}
+
+const char* getArmaNombre(const struct Arma *a) {
+    	return a->nombre;
+}
+
+int getArmaAtaque(const struct Arma *a) {
+    	return a->ataque;
+}
+
+
+
+/*Funcion para crear jugador, recibe como parametos todas las caracteristicas que este debe tener
+*Define al jugador con el struct de antes
+*Toma los parametros y los pasa al struct que se definio
+*/
+struct Jugador crearJugador(const char *nombre, int vidaActual, int vidaMaxima, int dinero, struct Arma arma) {
+
+    	struct Jugador j;
+    	strncpy(j.nombre, nombre, sizeof(j.nombre) - 1);
+    	j.nombre[sizeof(j.nombre) - 1] = '\0';
+    	j.vidaActual = vidaActual;
+    	j.vidaMaxima = vidaMaxima;
+    	j.dinero     = dinero;
+    	j.arma       = arma;
+    	return j;
+}
+
+/*Funcion sencilla para imprimir
+*Recibe como parametro el struct del jugador
+*Mediante el struct accede a las caracteristicas para poder imprimirlas
+*/
+void imprimirJugador(const struct Jugador *j) {
+    	printf("**********          DATOS DEL JUGADOR           **********\n");
+    	printf("  nombre: \"%s\"\n",     j->nombre);
+    	printf("  vidaActual: %d\n",     j->vidaActual);
+    	printf("  vidaMaxima: %d\n",     j->vidaMaxima);
+    	printf("  dinero: %d\n",         j->dinero);
+    	printf("  ");
+    	imprimirArma(&j->arma);
+    	printf("\n**********************************************************\n");
+}
+
+// Mas funciones set y get
+
+void setJugadorNombre(struct Jugador *j, const char *nombre) {
+    	strncpy(j->nombre, nombre, sizeof(j->nombre) - 1);
+    	j->nombre[sizeof(j->nombre) - 1] = '\0';
+}
+
+const char* getJugadorNombre(const struct Jugador *j) {
+    	return j->nombre;
+}
+
+void setVidaActual(struct Jugador *j, int v) {
+    	j->vidaActual = v;
+}
+
+int getVidaActual(const struct Jugador *j) {
+    	return j->vidaActual;
+}
+
+void setVidaMaxima(struct Jugador *j, int v) {
+    	j->vidaMaxima = v;
+}
+
+int getVidaMaxima(const struct Jugador *j) {
+    	return j->vidaMaxima;
+}
+
+void setDinero(struct Jugador *j, int d) {
+    	j->dinero = d;
+}
+
+int getDinero(const struct Jugador *j) {
+    	return j->dinero;
+}
+
+void setArmaJugador(struct Jugador *j, struct Arma arma) {
+    	j->arma = arma;
+}
+
+struct Arma getArmaJugador(const struct Jugador *j) {
+    	return j->arma;
+}
+
+
 
