@@ -157,7 +157,7 @@ struct Enemigo crearEnemigo(int id, int dificultad) {
         struct Enemigo e;
         e.id = id;
         switch (id) {
-		
+	        /*Se usa la biblioteca string.h para coipar los nombres en la estructura creada*/	
                 case 1: strcpy(e.nombre, "zombie");   break;
                 case 2: strcpy(e.nombre, "bruja");    break;
                 case 3: strcpy(e.nombre, "diablo");   break;
@@ -179,7 +179,7 @@ struct Enemigo crearEnemigo(int id, int dificultad) {
         	default: vidaBase = 10; ataqueBase =  1;  break;
    	}
 
-        if (dificultad == 1) {
+        if (dificultad == 1) { /*Segun la dificultad se bufean o nerfean las estadisticas del enemigo*/
         	e.vidaMaxima = vidaBase * 2;
         	e.ataque     = ataqueBase * 2;
         } else if (dificultad == 2) {
@@ -218,7 +218,9 @@ void setEnemigoDificultad(struct Enemigo *e, int dificultad) {
     	*e = crearEnemigo(e->id, dificultad);
 }
 
-
+/*Esta estructura crea un arma aleatioria por medio de un id aleatorio, mientras mas potente
+ * sea esta mas dificil es que toque
+ */
 
 struct Arma crearArma(int id) {
     	struct Arma a;
@@ -314,7 +316,7 @@ void imprimirJugador(const struct Jugador *j) {
     	printf("\n**********************************************************\n");
 }
 
-// Mas funciones set y get
+// Mas funciones set y get que cumplen con lo mismo que se menciono antes en la estructura del enemigo
 
 void setJugadorNombre(struct Jugador *j, const char *nombre) {
     	strncpy(j->nombre, nombre, sizeof(j->nombre) - 1);
@@ -357,7 +359,7 @@ struct Arma getArmaJugador(const struct Jugador *j) {
     	return j->arma;
 }
 
-   //esta parte es para dar la posicion del caballero, si el caballero se encuentra en esa posicion aparece un * en la posicion i,j
+   /*esta parte es para dar la posicion del caballero, si el caballero se encuentra en esa posicion aparece un * en la posicion i,j*/
 void printCaballero(int posi, int posj) {
 
 	for (int i = 0; i < 5; i++) {
@@ -373,78 +375,86 @@ void printCaballero(int posi, int posj) {
 		printf("\n");
 	}
 }
-
+/*Declaracion de funciones importantes para la jugabilidad*/
 void gameplay(struct Jugador *jugador, int dificultad);
 void combateJefe(struct Jugador *jugador, int dificultad);
 void apareceTienda(struct Jugador *jugador);
 
-// funcion combate
+/*FUNCION PARA LOS COMBATES
+ *Recibe como parametros la direccion de la estructtura del jugador creado y la dificultad
+ *--La direccion se toma para ir modificando los miembros del struct jugador, ya que
+ *--al ser combates se pierde vida, entonces asi se puede realizar 
+ *El parametro dificultad es necesario para incrementar el nivel en los combates
+ */
 void combate(struct Jugador *jugador, int dificultad) {
-    
-    system("clear");
-    int idEnemigo = 1;
-    idEnemigo = rand() % 5 + 1; 
+	
+    	system("clear");
+    	int idEnemigo = 1;
+    	idEnemigo = rand() % 5 + 1; /*Aqui se genra un ID aleatotio para el enemigo */
    
-    struct Enemigo e = crearEnemigo(idEnemigo, dificultad);
+    	struct Enemigo e = crearEnemigo(idEnemigo, dificultad);
 
-   
-    int probJugador, probEnemigo;
-    switch (dificultad) {
-        case 1: probJugador = 50;  probEnemigo = 33;  break;
-        case 2: probJugador = 75;  probEnemigo = 25;  break;
-        case 3: probJugador = 90;  probEnemigo = 10;  break;
-        default: probJugador = 50; probEnemigo = 33;  break;
-    }
+        /*Con estas variables y la estructura case se controla la probabilidad que se tendra en el algoritmo para acertar el ataque*/
+    	int probJugador, probEnemigo;
+    	switch (dificultad) {
 
-    printf("Comienza el combate contra %s!\n", getEnemigoNombre(&e));
-    printf("%s: %d/%d  VS  %s: %d/%d\n\n",
-           getJugadorNombre(jugador), getVidaActual(jugador), getVidaMaxima(jugador),
-           getEnemigoNombre(&e), getEnemigoVidaActual(&e), getEnemigoVidaMaxima(&e));
+        	case 1: probJugador = 50;  probEnemigo = 33;  break;
+        	case 2: probJugador = 75;  probEnemigo = 25;  break;
+        	case 3: probJugador = 90;  probEnemigo = 10;  break;
+        	default: probJugador = 50; probEnemigo = 33;  break;
+        }
+        /*Aqui se imprime las estadisticas del jugador y el enemigo para tener en cuenta a la hora del arranque*/
+    	printf("Comienza el combate contra %s!\n", getEnemigoNombre(&e));
+    	printf("%s: %d/%d  VS  %s: %d/%d\n\n",
+          	 getJugadorNombre(jugador), getVidaActual(jugador), getVidaMaxima(jugador),
+           	getEnemigoNombre(&e), getEnemigoVidaActual(&e), getEnemigoVidaMaxima(&e));
 
-    while (jugador->vidaActual > 0 && e.vidaActual > 0) {
-        
+    	while (jugador->vidaActual > 0 && e.vidaActual > 0) { /*Arranque del combate hasta que uno muera*/
+     
       //  printf("%s\n", zombie);
        
     
-        // el jugador
-        if (rand() % 100 < probJugador) {
-            e.vidaActual -= jugador->arma.ataque;
-            printf("%s golpea y causa %d de daño. Vida %s: %d/%d\n",
-                   jugador->nombre, jugador->arma.ataque,
-                   e.nombre, e.vidaActual < 0 ? 0 : e.vidaActual, e.vidaMaxima);
-        } else {
-            printf("%s falla el ataque.\n", jugador->nombre);
-        }
-        if (e.vidaActual <= 0) break;
+          /*Aqui este mecanismo que toma la probabilidad que se tenia segun la dificultad escoge si se golpea a un enemigo*/
+        	if (rand() % 100 < probJugador) { 
 
-        // el enemigo 
-        if (rand() % 100 < probEnemigo) {
-            jugador->vidaActual -= e.ataque;
-            printf("%s ataca y causa %d de daño. Vida %s: %d/%d\n",
-                   e.nombre, e.ataque,
-                   jugador->nombre, jugador->vidaActual < 0 ? 0 : jugador->vidaActual, jugador->vidaMaxima);
-        } else {
-            printf("%s falla el ataque.\n", e.nombre);
-        }
-        
-        if (jugador->vidaActual <= 0) {
-            printf("Fin del juego %s...\n", e.nombre);
-            exit(0);
-        }
-        
-        sleep(2);
-        system("clear");
-        printf("%s\n", zombie);
-        printf("%s: %d/%d  VS  %s: %d/%d\n\n",
-               jugador->nombre, jugador->vidaActual, jugador->vidaMaxima,
-               e.nombre,           e.vidaActual,   e.vidaMaxima);
-    }
+            		e.vidaActual -= jugador->arma.ataque;
+            		printf("%s golpea y causa %d de daño. Vida %s: %d/%d\n",
+                   	jugador->nombre, jugador->arma.ataque,
+                   	e.nombre, e.vidaActual < 0 ? 0 : e.vidaActual, e.vidaMaxima);
 
-    
-    if (jugador->vidaActual > 0)
-        printf("Has acabado con %s!\n", e.nombre);
-    else
-        printf("Fin del juego %s...\n", e.nombre);
+        	} else {
+            		printf("%s falla el ataque.\n", jugador->nombre);
+        	}
+       	 	if (e.vidaActual <= 0) break;
+
+           /*Mismo mecanismmo de antes, pero para el ataque del enemigo*/
+        	if (rand() % 100 < probEnemigo) {
+            		jugador->vidaActual -= e.ataque;
+            		printf("%s ataca y causa %d de daño. Vida %s: %d/%d\n",
+                   	e.nombre, e.ataque,
+                   	jugador->nombre, jugador->vidaActual < 0 ? 0 : jugador->vidaActual, jugador->vidaMaxima);
+        	} else {
+            		printf("%s falla el ataque.\n", e.nombre);
+        	}
+        
+        	if (jugador->vidaActual <= 0) {
+            		printf("Fin del juego %s...\n", e.nombre);
+            		exit(0);
+        	}
+        
+        	sleep(2);
+        	system("clear");
+        	printf("%s\n", zombie);
+        	printf("%s: %d/%d  VS  %s: %d/%d\n\n",
+               	jugador->nombre, jugador->vidaActual, jugador->vidaMaxima,
+               	e.nombre,           e.vidaActual,   e.vidaMaxima);
+    	}
+
+        /*Mensajes cuando se vence al enemigo*/
+    	if (jugador->vidaActual > 0)
+        	printf("Has acabado con %s!\n", e.nombre);
+    	else
+        	printf("Fin del juego %s...\n", e.nombre);
 }
 
 
@@ -468,41 +478,44 @@ void combate(struct Jugador *jugador, int dificultad) {
          
 */
 
-
+/*FUNCION PARA LA TIENDA
+ *Recibe como parametro la direccion del jugador creado
+ *Con ella si este duerme se restaura toda su vida 
+ *A futuro se busca implmentar la opcion para ventas
+ */
 void apareceTienda(struct Jugador *jugador) {
-    system("clear");
-    printf("Bienvenido a la tienda\n");
-    printf("1) Dormir  2) Salir\n");
-    int opc;
-    scanf("%d",&opc);
-    if(opc==1){
-        printf("Durmiendo...\n");
-        sleep(3);
-        setVidaActual(jugador,getVidaMaxima(jugador));
-        printf("Felicidades, te has curado completamente\n");
-    } else if(opc==2){
-        printf("Volviendo a la aventura...\n");
-    }
+    	system("clear");
+    	printf("Bienvenido a la tienda\n");
+    	printf("1) Dormir  2) Salir\n");
+    	int opc;
+    	scanf("%d",&opc);
+    	if(opc==1){
+        	printf("Durmiendo...\n");
+        	sleep(3);
+        	setVidaActual(jugador,getVidaMaxima(jugador));
+        	printf("Felicidades, te has curado completamente\n");
+    	} else if(opc==2){
+        	printf("Volviendo a la aventura...\n");
+    	}
 }
 
 void combateJefe(struct Jugador *jugador, int dificultad){
     
     
     system("clear");
-    // Siempre jefe (id = 6)
-    int idEnemigo = 6;
+    int idEnemigo = 6; /*El jefe tiene el ID fijo en 6*/
     struct Enemigo e = crearEnemigo(idEnemigo, dificultad);
 
-    // Probabilidades según dificultad
+    /*Nuevamente probabilidades de ataque segun la dificultad*/
     int probJugador, probEnemigo;
     switch (dificultad) {
-        case 1: probJugador = 50; probEnemigo = 33; break;
-        case 2: probJugador = 75; probEnemigo = 25; break;
-        case 3: probJugador = 90; probEnemigo = 10; break;
-        default: probJugador = 50; probEnemigo = 33; break;
+        	case 1: probJugador = 50; probEnemigo = 33; break;
+        	case 2: probJugador = 75; probEnemigo = 25; break;
+        	case 3: probJugador = 90; probEnemigo = 10; break;
+        	default: probJugador = 50; probEnemigo = 33; break;
     }
 
-    // Mostrar ASCII guardado en 'angel' y datos iniciales
+    /* Mostrar ASCII guardado en 'angel' y datos iniciales*/
     printf("%s\n", angel);
     printf("¡Comienza el combate contra %s!\n\n", e.nombre);
     printf("%s: %d/%d  VS  %s: %d/%d\n\n",
@@ -510,102 +523,108 @@ void combateJefe(struct Jugador *jugador, int dificultad){
            e.nombre,           e.vidaActual,   e.vidaMaxima);
 
     while (jugador->vidaActual > 0 && e.vidaActual > 0) {
-        
-    
-       
+    /*Para el combate con el jefe se desarrolla la misma 
+     *implementacion que se uso para los enemigos normales
+     */
+        	if (rand() % 100 < probJugador) { 
+            		e.vidaActual -= jugador->arma.ataque;
+            		printf("%s golpea y causa %d de daño.\n",
+                   	jugador->nombre, jugador->arma.ataque);
+        	} else {
+            		printf("%s falla el ataque.\n", jugador->nombre);
+        	}
+        	if (e.vidaActual <= 0) break;
 
-        if (rand() % 100 < probJugador) {
-            e.vidaActual -= jugador->arma.ataque;
-            printf("%s golpea y causa %d de daño.\n",
-                   jugador->nombre, jugador->arma.ataque);
-        } else {
-            printf("%s falla el ataque.\n", jugador->nombre);
-        }
-        if (e.vidaActual <= 0) break;
+        	// Turno del jefe
+        	if (rand() % 100 < probEnemigo) {
+            		jugador->vidaActual -= e.ataque;
+            		printf("%s ataca y causa %d de daño.\n",
+                   	e.nombre, e.ataque);
+        	} else {
+            		printf("%s falla el ataque.\n", e.nombre);
+        	}
 
-        // Turno del jefe
-        if (rand() % 100 < probEnemigo) {
-            jugador->vidaActual -= e.ataque;
-            printf("%s ataca y causa %d de daño.\n",
-                   e.nombre, e.ataque);
-        } else {
-            printf("%s falla el ataque.\n", e.nombre);
-        }
-
-        sleep(2);
-        system("clear");
-        printf("%s\n", angel);
-        printf("%s: %d/%d  VS  %s: %d/%d\n\n",
-               jugador->nombre, jugador->vidaActual, jugador->vidaMaxima,
-               e.nombre,           e.vidaActual,   e.vidaMaxima);
+        	sleep(2);
+        	system("clear");
+        	printf("%s\n", angel);
+        	printf("%s: %d/%d  VS  %s: %d/%d\n\n",
+               	jugador->nombre, jugador->vidaActual, jugador->vidaMaxima,
+               	e.nombre,           e.vidaActual,   e.vidaMaxima);
     }
 
     if (jugador->vidaActual > 0)
-        printf("Has acabado con %s!\n", e.nombre);
+        	printf("Has acabado con %s!\n", e.nombre);
     else
-        printf("Fin del juego %s...\n", e.nombre);
+        	printf("Fin del juego %s...\n", e.nombre);
     
     
     
 }
 
-
+/*FUNCION INICIO
+ *Esta funcion es la encargada de hacer que se inicie el juego invocando la portada
+ *el menu para escoger si se desea comenzar la partida, el nombre del jugador y la 
+ *dificultad de la partida.
+ *Para las opciones se usan ciclos do-while, ya que asi se evita que alguien escoja un opcion invalida
+ */
 void inicio() {
-    int opcion = 0;
-    char nombreJugador[50];
-    int dificultad = 0;
+	
+    	int opcion = 0;
+    	char nombreJugador[50];
+    	int dificultad = 0;
 
-    printf("%s", portada);
+    	printf("%s", portada);
 
-    /* sigue pidiendo hasta que ingrese 1 */
-    do {
-        system("clear");
-        printf("%s", portada);
-        printf("Presione 1 para continuar: ");
-        if (scanf("%d", &opcion) != 1) {
-            int c;
-            while ((c = getchar()) != '\n' && c != EOF);
-            opcion = 0;
-        }
-    } while (opcion != 1);
+    /*En este bloque se verifica que lo unico que pueda ser ingresado es un uno y hasta qu esto sea asi se ingresa al menu*/
+    	do {
+        	system("clear");
+        	printf("%s", portada);
+        	printf("Presione 1 para continuar: ");
+        	if (scanf("%d", &opcion) != 1) {
+            		int c;
+            		while ((c = getchar()) != '\n' && c != EOF);
+            		opcion = 0;
+        	}
+    	} while (opcion != 1);
 
-    system("clear");
-    printf("Bienvenido a Monster Quest 98\n\n");
+    	system("clear");
+    	printf("Bienvenido a Monster Quest 98\n\n");
 
-    /* menú principal */
-   do {
-       system("clear");
-    printf("1. Comenzar partida\n");
-    printf("2. Salir\n\n");
-    printf("Seleccione una opcion: ");
-    if (scanf("%d", &opcion) != 1) {
-        int c;
-        while ((c = getchar()) != '\n' && c != EOF);
-        opcion = 0;
-    }
-} while (opcion != 1 && opcion != 2);
-
-
-    switch (opcion) {
-        case 1:
-            system("clear");
-            /* elige dificultad */
-            do {
-                system("clear");
-                printf("****** Elija la dificultad ******\n");
-                printf("1. Dificil\n2. Normal\n3. Facil\n");
-                printf("Opcion: ");
-                if (scanf("%d", &dificultad) != 1) {
-        int c;
-        while ((c = getchar()) != '\n' && c != EOF);
-        dificultad = 0;
-    }
-            } while (dificultad < 1 || dificultad > 3);
+        /*Aqui ya se ingreso al menu de videojuego donde se piden las opciones de salir o comenzar*/
+   	do {
+   	   	system("clear");
+    	   	printf("1. Comenzar partida\n");
+    	   	printf("2. Salir\n\n");
+    	   	printf("Seleccione una opcion: ");
+    	if (scanf("%d", &opcion) != 1) {
+        	int c;
+        	while ((c = getchar()) != '\n' && c != EOF);
+        	opcion = 0;
+    	}
+    
+	} while (opcion != 1 && opcion != 2);
 
 
-            system("clear");
-            printf("Escriba el nombre de su personaje: ");
-            scanf("%49s", nombreJugador);
+    		switch (opcion) {
+        		case 1:
+            			system("clear");
+               /*Si la opcion es 1, se escoge la dificultad del juego y se mantene ahi hasta ingresar algo valido*/
+            			do {
+                			system("clear");
+                			printf("****** Elija la dificultad ******\n");
+                			printf("1. Dificil\n2. Normal\n3. Facil\n");
+                			printf("Opcion: ");
+                			if (scanf("%d", &dificultad) != 1) {
+        					int c;
+        					while ((c = getchar()) != '\n' && c != EOF);
+        					dificultad = 0;
+    					}
+            			} while (dificultad < 1 || dificultad > 3);
+
+                                /*Cuando se tiene esto, se hace limpieza de la pantalla y se pide el nombre del jugador*/
+            			system("clear");
+            			printf("Escriba el nombre de su personaje: ");
+            			scanf("%49s", nombreJugador);
 
             {
                 struct Jugador jugador = crearJugador(nombreJugador, 100, 100, 10, crearArma(1));
