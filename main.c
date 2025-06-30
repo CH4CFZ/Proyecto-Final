@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "proyecto.h"
+#include "proyectofinal.h"
 
 /*Funcion main
  *Llama al videojuego para que se inicie

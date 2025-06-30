@@ -19,7 +19,7 @@ $(TARGET): $(OBJS)
 main.o: main.c
 	$(CC) $(CFLAGS) -c main.c -o main.o
 
-src/proyectofinal.o: proyectofinal.c $(INCLUDES)
+src/proyectofinal.o: src/proyectofinal.c $(INCLUDES)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 #Regla para eliminar los archivos objeto que se puedan llegar a generar
