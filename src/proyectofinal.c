@@ -626,145 +626,146 @@ void inicio() {
             			printf("Escriba el nombre de su personaje: ");
             			scanf("%49s", nombreJugador);
 
-            {
-                struct Jugador jugador = crearJugador(nombreJugador, 100, 100, 10, crearArma(1));
-                if (dificultad == 1) {
-                    setVidaMaxima(&jugador, 1000);
-                    setVidaActual(&jugador, 1000);
-                } else if (dificultad == 2) {
-                    setVidaMaxima(&jugador, 250);
-                    setVidaActual(&jugador, 250);
-                } else {
-                    setVidaMaxima(&jugador, 100);
-                    setVidaActual(&jugador, 100);
-                }
-                gameplay(&jugador, dificultad);
-            }
-            break;
+            			{ /*A segun la dificultad se le asina una vida superior o inferior al jugador*/
+                			struct Jugador jugador = crearJugador(nombreJugador, 100, 100, 10, crearArma(1));
+                			if (dificultad == 1) {
+                    				setVidaMaxima(&jugador, 1000);
+                    				setVidaActual(&jugador, 1000);
+                			} else if (dificultad == 2) {
+                    				setVidaMaxima(&jugador, 250);
+                    				setVidaActual(&jugador, 250);
+                			} else {
+                    				setVidaMaxima(&jugador, 100);
+                   				 setVidaActual(&jugador, 100);
+                			}
+                			gameplay(&jugador, dificultad);
+            				}
+           				break;
 
-        case 2:
-            printf("\nHasta luego\n");
-            break;
+        		case 2:
+            			printf("\nHasta luego\n");
+            			break;
 
-        default:
+        		default:
             /* puede repetir o salir según preferencia */
-            break;
+            			break;
     }
 }
 
-
-
-
-
+/*FUNCION PARA EL GAMEPLAY
+ *Recibe como parametro la direccion del jugador creado y la dificultad
+ *Dependiedno de la dificultad genera un tablero de distintas dimensiones
+ */
 void gameplay(struct Jugador *jugador, int dificultad) {
 
+	
+    	system("clear");
+    	int filas, columnas, valor_maximo, max_libre;
+    	switch (dificultad) { /*Definicion segun la dificultad mencionada arriba*/
+	   
+        	case 1:
+            		filas = columnas = 8;
+            		valor_maximo = 25;
+            		max_libre    = 5;
+            		break;
+        	case 2:
+            		filas = columnas = 6;
+            		valor_maximo = 20;
+            		max_libre    = 4;
+            		break;
+        	case 3:
+            		filas = columnas = 4;
+            		valor_maximo = 10;
+            		max_libre    = 2;
+            		break;
+        	default:
+            		return;
+    	}
 
-    system("clear");
-    int filas, columnas, valor_maximo, max_libre;
-    switch (dificultad) {
-        case 1:
-            filas = columnas = 8;
-            valor_maximo = 25;
-            max_libre    = 5;
-            break;
-        case 2:
-            filas = columnas = 6;
-            valor_maximo = 20;
-            max_libre    = 4;
-            break;
-        case 3:
-            filas = columnas = 4;
-            valor_maximo = 10;
-            max_libre    = 2;
-            break;
-        default:
-            return;
-    }
-
-    srand(time(NULL));
-    char tablero[filas][columnas];
-    int visitado[filas][columnas];
+    	srand(time(NULL));
+    	char tablero[filas][columnas];
+    	int visitado[filas][columnas];
     
-    for (int i = 0; i < filas; i++) {
-        int pos_tienda = rand() % (columnas - 1);
-        for (int j = 0; j < columnas; j++) {
-            visitado[i][j] = 0;
-            if (j == columnas - 1)       tablero[i][j] = 'j';
-            else if (j == pos_tienda)    tablero[i][j] = 't';
-            else {
-                int v = rand() % valor_maximo + 1;
-                tablero[i][j] = (v <= max_libre) ? 'l' : 'c';
-            }
+    	for (int i = 0; i < filas; i++) {
+        	int pos_tienda = rand() % (columnas - 1); /*Algoritmo de azar para generar tiendas en el tablero*/
+        	for (int j = 0; j < columnas; j++) {
+            		visitado[i][j] = 0;
+            		if (j == columnas - 1)       tablero[i][j] = 'j'; /*Si llega al final de la fila, aparece un jefe*/
+            		else if (j == pos_tienda)    tablero[i][j] = 't'; /*Si se esta en el algoritmo de arriab se esta en tienda*/
+            		else {
+                		int v = rand() % valor_maximo + 1; /*variable para ver si la casilla esta libre o hay combate*/
+                		tablero[i][j] = (v <= max_libre) ? 'l' : 'c';
+            		}
+        	}
+   	 }
+
+    	int fila = 0, columna = 0, accion;
+    	visitado[0][0] = 1;
+        /*Recorrido de la la matriz presentado donde esta el personaje*/
+    	while (1) {
+        	system("clear");
+        	for (int i = 0; i < filas; i++) {
+            		for (int j = 0; j < columnas; j++) { 
+                		if (i == fila && j == columna)       printf("| (ง •̀_•́)ง ");
+                		else if (visitado[i][j])             printf("|     *    ");
+                		else                                 printf("|          ");
+            		}
+            		printf("|\n");
         }
-    }
-
-    int fila = 0, columna = 0, accion;
-    visitado[0][0] = 1;
-
-    while (1) {
-        system("clear");
-        for (int i = 0; i < filas; i++) {
-            for (int j = 0; j < columnas; j++) { 
-                if (i == fila && j == columna)       printf("| (ง •̀_•́)ง ");
-                else if (visitado[i][j])             printf("|     *    ");
-                else                                 printf("|          ");
-            }
-            printf("|\n");
-        }
-
+        /*Las apariciones se dan con letras clave para saber cuando ocurre cada evento */
         char tipo = tablero[fila][columna];
-        if(tipo == 'c'){
-            
-            
-            printf("Tendras un combate\n");
-            sleep(1);
-            system("clear");
-            printf("%s", avisoComabte);
-            sleep(3);
-            printf("Entrando\n");
-            combate(jugador, dificultad);
+        if(tipo == 'c') {
+           
+            	printf("Tendras un combate\n");
+            	sleep(1);
+            	system("clear");
+            	printf("%s", avisoComabte);
+            	sleep(3);
+            	printf("Entrando\n");
+            	combate(jugador, dificultad);
         } 
         else if (tipo == 't'){ 
-            printf("Has encontrado una tienda en el camino\n");
-            sleep(1);
-            system("clear");
-            apareceTienda(jugador);
+            	printf("Has encontrado una tienda en el camino\n");
+            	sleep(1);
+            	system("clear");
+            	apareceTienda(jugador);
             
         }
         else if (tipo == 'j'){ 
-            printf("Ha aparecido un jefe, derrotalo para continuar.");
-            sleep(1);
-            system("clear");
-            printf("%s", avisoComabte);
-            sleep(3);
-            printf("Entrando\n");
-            combateJefe(jugador, dificultad);
+            	printf("Ha aparecido un jefe, derrotalo para continuar.");
+            	sleep(1);
+            	system("clear");
+            	printf("%s", avisoComabte);
+            	sleep(3);
+            	printf("Entrando\n");
+            	combateJefe(jugador, dificultad);
             
         }
 
-// esto es el menu de opciones
+       /*Aqui se define el mesnsaje que se muetras para avanzar y si no se coloca lo que se pide
+	* se pide hasta que sea ingresado*/
 
         do {
-            printf("1. Presione 1 para avanzar ");
-        if (scanf("%d", &accion) != 1) {
-        int c;
-        while ((c = getchar()) != '\n' && c != EOF);
-        accion = 0;
-         }
-         } while (accion != 1);
+            	printf("1. Presione 1 para avanzar ");
+        	if (scanf("%d", &accion) != 1) {
+        		int c;
+        		while ((c = getchar()) != '\n' && c != EOF);
+        		accion = 0;
+        	}
+        } while (accion != 1);
 
 
         if (accion == 1) {
-            columna++;
-            if (columna == columnas) {
-                columna = 0;
-                fila++;
-                if (fila == filas) {
-                    printf("Fin del juego\n");
-                    break;
-                }
-            }
-            visitado[fila][columna] = 1;
+            	columna++;
+            	if (columna == columnas) {
+                	columna = 0;
+                	fila++;
+                	if (fila == filas) {
+                    		printf("Fin del juego\n");
+                    		break;
+                	}
+            	}
+            	visitado[fila][columna] = 1;
         }
     }
 }
